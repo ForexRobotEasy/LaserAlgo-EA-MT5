@@ -1,0 +1,125 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                             LaserAlgo EA MT5     |
+//|                            Developed by Forex Robot Easy Team    |
+//|                                            forexroboteasy.com    |
+//+------------------------------------------------------------------+
+//| Terms of Reference for LaserAlgo EA MT5 Code Development         |
+//|                                                                 |
+//| 1. Develop an AI-powered trading solution for Forex market based |
+//|    on the LaserAlgo EA MT5 product description.                 |
+//|                                                                 |
+//| 2. Utilize artificial intelligence (AI) algorithms to identify   |
+//|    and capitalize on market patterns.                            |
+//|                                                                 |
+//| 3. Implement trading decisions based on identified patterns,     |
+//|    focusing on a good risk to reward ratio (R:R) rather than     |
+//|    grid or martingale methods.                                   |
+//|                                                                 |
+//| 4. Include a stop loss for every trade placed to ensure risk     |
+//|    management.                                                   |
+//|                                                                 |
+//| 5. Develop necessary trading functions to execute the algorithm, |
+//|    including but not limited to:                                |
+//|    a. Pattern recognition: Identify and analyze market patterns  |
+//|       using AI algorithms.                                       |
+//|    b. Trade execution: Place trades based on identified patterns |
+//|       and risk management principles.                            |
+//|    c. Stop loss management: Set stop loss for each trade to      |
+//|       limit potential losses.                                    |
+//|    d. Risk management: Implement risk management principles to   |
+//|       control the amount of capital allocated to each trade.     |
+//|    e. Account monitoring: Continuously monitor account balance,  |
+//|       open positions, and overall performance.                   |
+//|    f. Position sizing: Determine appropriate position sizes      |
+//|       based on risk tolerance and account balance.               |
+//|    g. Trade exit strategy: Develop a strategy for exiting trades |
+//|       based on predefined criteria.                              |
+//|    h. Performance tracking: Record and analyze the performance   |
+//|       of the AI-powered trading solution.                        |
+//|                                                                 |
+//| 6. Ensure the code is well-documented and follows best practices |
+//|    for readability and maintainability.                          |
+//|                                                                 |
+//| 7. Test the code thoroughly to ensure accuracy and reliability.  |
+//|                                                                 |
+//| 8. The code should be compatible with the MetaTrader 5 platform. |
+//|                                                                 |
+//| 9. The terms of reference should be completed within the         |
+//|    specified character limit of 1500-2000 characters.            |
+//+------------------------------------------------------------------+
+
+// Include necessary libraries and define global variables
+#include <AI_library.mqh>
+#include <Risk_management.mqh>
+#include <Trade_execution.mqh>
+#include <Account_monitoring.mqh>
+
+// Define constants
+#define RISK_PERCENTAGE 2 // Risk percentage per trade
+
+// Initialize global objects
+AI_library ai;
+Risk_management riskManagement;
+Trade_execution tradeExecution;
+Account_monitoring accountMonitoring;
+
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+    // Initialize AI algorithms
+    ai.init();
+
+    // Initialize risk management
+    riskManagement.setRiskPercentage(RISK_PERCENTAGE);
+
+    // Initialize trade execution
+    tradeExecution.init();
+
+    // Initialize account monitoring
+    accountMonitoring.init();
+
+    return INIT_SUCCEEDED;
+}
+
+//+------------------------------------------------------------------+
+//| Expert tick function                                             |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+    // Calculate position size based on risk tolerance and account balance
+    double riskAmount = riskManagement.calculateRiskAmount();
+    double positionSize = accountMonitoring.calculatePositionSize(riskAmount);
+
+    // Identify and analyze market patterns using AI algorithms
+    Pattern pattern = ai.identifyPattern();
+
+    // Place trades based on identified patterns and risk management principles
+    tradeExecution.executeTrade(pattern, positionSize);
+
+    // Set stop loss for each trade to limit potential losses
+    tradeExecution.setStopLoss(pattern, positionSize);
+
+    // Continuously monitor account balance, open positions, and overall performance
+    accountMonitoring.monitorAccount();
+
+    // Develop a strategy for exiting trades based on predefined criteria
+    tradeExecution.exitTrade(pattern);
+
+    // Record and analyze the performance of the AI-powered trading solution
+    accountMonitoring.trackPerformance();
+}
+
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+    // Clean up resources
+    ai.cleanup();
+    riskManagement.cleanup();
+    tradeExecution.cleanup();
+    accountMonitoring.cleanup();
+}
